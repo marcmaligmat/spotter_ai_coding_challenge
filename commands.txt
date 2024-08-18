@@ -1,0 +1,6 @@
+python manage.py import_books /mnt/e/archive/books.json/books.json --limit 500
+
+Shelf.objects.all().delete()
+Book.objects.all().delete()
+BookShelf.objects.all().delete()
+Author.objects.all().delete()
