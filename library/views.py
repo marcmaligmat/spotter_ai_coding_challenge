@@ -25,7 +25,7 @@ class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
     filterset_fields = ['title', 'author__name']
-    search_fields = ['title', 'authors__name']  # Specify fields for searching
+    search_fields = ['title', 'authors__name']
     filter_backends = [filters.SearchFilter]
 
 
@@ -38,7 +38,6 @@ class FavoriteViewSet(viewsets.ModelViewSet):
         return Favorite.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        # Automatically assign the current user
         serializer.save(user=self.request.user)
 
     def create(self, request, *args, **kwargs):
@@ -47,18 +46,10 @@ class FavoriteViewSet(viewsets.ModelViewSet):
             return Response({'detail': 'You can only have up to 20 favorite.'}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            # Perform the create operation
             response = super().create(request, *args, **kwargs)
-
-            # Generate recommendations based on the new favorite
             recommendations = recommend_books(request.user)
-
-            # Serialize the recommendations
             book_serializer = BookSerializer(recommendations, many=True)
-
-            # Add recommendations to the response data
             response.data['recommendations'] = book_serializer.data
-
             return response
 
         except IntegrityError:

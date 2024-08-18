@@ -46,5 +46,4 @@ class FavoriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Favorite
         fields = ['user', 'book']
-        # Optionally, you can set 'user' to read-only to always assign the current user
         read_only_fields = ['user']

@@ -1,13 +1,7 @@
 from typing import List
-from django.db.models import Count, Q, F, Value
-from typing import Dict, List
-from sklearn.feature_extraction.text import TfidfVectorizer
-import numpy as np
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.metrics.pairwise import cosine_similarity
-
-from library.models import Author, Book, BookShelf, Shelf, Favorite
-from django.core.cache import cache
+from django.db.models import Count, Q, Value
+from typing import List
+from library.models import Book, Shelf, Favorite
 from django.db.models.functions import Coalesce
 
 
